@@ -1,0 +1,5189 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://staging.vahanapi.com/vahan",
+      "description": "Server"
+    }
+  ],
+  "info": {
+    "description": "Documentation",
+    "version": "1.0.0",
+    "title": "Vahan API Documentation."
+  },
+  "tags": [
+    {
+      "name": "Vehicle",
+      "description": "This section contains all vehicle related APIs."
+    },
+    {
+      "name": "State",
+      "description": "This section contains all state related APIs."
+    },
+    {
+      "name": "Control",
+      "description": "This section contains all vehicles control related APIs."
+    },
+    {
+      "name": "General",
+      "description": "This section contains all general APIs."
+    },
+    {
+      "name": "User",
+      "description": "This section contains all user related APIs."
+    },
+    {
+      "name": "Bot",
+      "description": "This section contains all bot related APIs."
+    }
+  ],
+  "x-tagGroups": [
+    {
+      "name": "Tesla",
+      "tags": [
+        "Vehicle",
+        "State",
+        "Control",
+        "General",
+        "User",
+        "Bot"
+      ]
+    }
+  ],
+  "paths": {
+    "/{vendor}/vehicles/{keyId}/controls/charge-port": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Charge port control.",
+        "description": "Control your vehicles charge port.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Charge port command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls": {
+      "get": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Vehicle controls.",
+        "description": "Check your vehicle controls.",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "Select language.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "en",
+              "enum": [
+                "en",
+                "hi",
+                "es"
+              ]
+            }
+          },
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your vehicle controls are working successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "0": {
+                            "type": "object",
+                            "properties": {
+                              "toggleName": {
+                                "type": "string",
+                                "example": "Charge port opened",
+                                "required": true
+                              },
+                              "toggleIcon": {
+                                "type": "string",
+                                "example": "URL"
+                              }
+                            }
+                          },
+                          "1": {
+                            "type": "object",
+                            "properties": {
+                              "toggleName": {
+                                "type": "string",
+                                "example": "Charge port closed",
+                                "required": true
+                              },
+                              "toggleIcon": {
+                                "type": "string",
+                                "example": "URL"
+                              }
+                            }
+                          },
+                          "controlName": {
+                            "type": "string",
+                            "enums": [
+                              "chargePort",
+                              "engine",
+                              "enginePinRequired",
+                              "engineStart",
+                              "flashLights",
+                              "frunk",
+                              "frunkOpen",
+                              "horn",
+                              "lock",
+                              "lockPinRequired",
+                              "sentryMode",
+                              "sunroof",
+                              "thermostat",
+                              "trunk",
+                              "trunkOpen",
+                              "wakeUp",
+                              "valetMode",
+                              "vent"
+                            ],
+                            "example": "chargePort",
+                            "required": true
+                          },
+                          "url": {
+                            "type": "string",
+                            "example": "URL",
+                            "required": true
+                          },
+                          "icon": {
+                            "type": "string",
+                            "example": "URL",
+                            "required": true
+                          },
+                          "hasDialogBox": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "hasToggleIcon": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "hasToggleAction": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "isNonPersistent": {
+                            "type": "boolean",
+                            "example": false
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/engine": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Engine control.",
+        "description": "Control your vehicle engine.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Engine command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/flash-lights": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Flash light control.",
+        "description": "Control your vehicle flash light.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Flash command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/frunk": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Frunk Control.",
+        "description": "Control your vehicle frunk.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Frunk command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/horn": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Horn control.",
+        "description": "Control your vehicle horn.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Horn command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/lock": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Vehicle lock control.",
+        "description": "Control your vehicle locking mechanism.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lock command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/sentry-mode": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Vehicle sentry mode control.",
+        "description": "Control your vehicle sentry mode.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sentry mode command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/software": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Vehicle software control.",
+        "description": "Control your vehicle software API.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "Enter date to schedule installation.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "schedule": {
+                  "type": "number",
+                  "description": "Enter time in unix epoch to schedule update.",
+                  "example": 1708516748006
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Software command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/sunroof": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Sunroof control.",
+        "description": "Control your vehicle sunroof.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sunroof command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/thermostat": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Thermostat control.",
+        "description": "Control your vehicle thermostat.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thermostat command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/trunk": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Trunk control.",
+        "description": "Control your vehicle trunk.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trunk command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/valet-mode": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Valet mode control.",
+        "description": "Control your vehicle valet mode.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "Set action status to true or false.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "Input valet mode otp.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "minLength": 8,
+                  "maxLength": 32,
+                  "example": "password123"
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Valet mode command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/vent": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Vents control.",
+        "description": "Control your vehicle vents.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vent command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/controls/wake-up": {
+      "post": {
+        "tags": [
+          "Control"
+        ],
+        "summary": "Wake up control.",
+        "description": "Wake up your vehicle.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wake up command executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isAlreadyPerformed": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/:keyId/assistance": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Assistance",
+        "description": "Get assistance for your vehicle.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assistance details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "contactNumber": {
+                          "type": "string",
+                          "example": "123 456 7890"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/diagnostics": {
+      "post": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Diagnostics",
+        "description": "Perform diagnostics for your vehicle.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "Select language.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "en",
+              "enum": [
+                "en",
+                "hi",
+                "es"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assistance details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "battery": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "battery"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "good"
+                            }
+                          }
+                        },
+                        "brakes": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "brakes"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "critical"
+                            }
+                          }
+                        },
+                        "engine": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "engine"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "critical"
+                            }
+                          }
+                        },
+                        "horn": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "horn"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "good"
+                            }
+                          }
+                        },
+                        "lights": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "lights"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "good"
+                            }
+                          }
+                        },
+                        "tyreFrontLeft": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "tyreFrontLeft"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "critical"
+                            }
+                          }
+                        },
+                        "tyreFrontRight": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "tyreFrontRight"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "good"
+                            }
+                          }
+                        },
+                        "tyreRearLeft": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "tyreRearLeft"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "low"
+                            }
+                          }
+                        },
+                        "tyreRearRight": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "example": "tyreRearRight"
+                            },
+                            "healthStatus": {
+                              "type": "string",
+                              "enum": [
+                                "critical",
+                                "good",
+                                "low",
+                                "high"
+                              ],
+                              "example": "high"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/faq": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "summary": "FAQs.",
+        "description": "Frequently asked questions.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "FAQs retrieval is successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "vendorUrl": {
+                          "type": "string",
+                          "example": "URL"
+                        },
+                        "faq": {
+                          "type": "object",
+                          "properties": {
+                            "question": {
+                              "type": "string",
+                              "example": "I have a Model 3 reservation, how do I configure my order?"
+                            },
+                            "answer": {
+                              "type": "string",
+                              "example": "To configure your order, sign in to your <a href='https://www.tesla.com/en_sg/teslaaccount'>Tesla Account</a> and select manage on your existing reservation to configure your Tesla vehicle. Your original USD deposit has now been converted to SGD.\nNote:- Reservations are not transferrable and can only be redeemed in the name of the reservation holder."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/vendors": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Get vendors data.",
+        "description": "Get vendors data.",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "Select language.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "en",
+              "enum": [
+                "en",
+                "hi",
+                "es"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieval of get vendors data is successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "vendor": {
+                          "type": "string",
+                          "example": "tesla"
+                        },
+                        "translatedName": {
+                          "type": "string",
+                          "example": "tesla"
+                        },
+                        "auth": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "example": "URL"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "bearerToken"
+                            },
+                            "preAuthDialogBox": {
+                              "type": "object",
+                              "properties": {
+                                "title": {
+                                  "type": "string",
+                                  "example": "authentication"
+                                },
+                                "description": {
+                                  "type": "string",
+                                  "example": "authentication"
+                                },
+                                "externalLinks": {
+                                  "type": "object",
+                                  "properties": {
+                                    "label": {
+                                      "type": "string",
+                                      "example": "Continue"
+                                    },
+                                    "link": {
+                                      "type": "string",
+                                      "example": "authentication-link"
+                                    },
+                                    "linkTarget": {
+                                      "type": "string",
+                                      "enums": [
+                                        "browser",
+                                        "webview"
+                                      ],
+                                      "example": "browser"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "postAuthDialogBox": {
+                              "type": "object",
+                              "properties": {
+                                "title": {
+                                  "type": "string",
+                                  "example": "authentication completed"
+                                },
+                                "description": {
+                                  "type": "string",
+                                  "example": "authentication completed"
+                                },
+                                "externalLinks": {
+                                  "type": "object",
+                                  "properties": {
+                                    "label": {
+                                      "type": "string",
+                                      "example": "Continue"
+                                    },
+                                    "link": {
+                                      "type": "string",
+                                      "example": "authentication-completed-link"
+                                    },
+                                    "linkTarget": {
+                                      "type": "string",
+                                      "enums": [
+                                        "browser",
+                                        "webview"
+                                      ],
+                                      "example": "browser"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "logo": {
+                          "type": "string",
+                          "example": "URL"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/metadata": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Metadata for vehicles.",
+        "description": "Metadata for Omnidrive app.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieval of metadata for your vehicles is successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "configurations": {
+                          "type": "object",
+                          "properties": {
+                            "refreshTime": {
+                              "type": "number",
+                              "example": 5
+                            }
+                          }
+                        },
+                        "urls": {
+                          "type": "object",
+                          "properties": {
+                            "privacyPolicy": {
+                              "type": "string",
+                              "example": "URL"
+                            },
+                            "redirectUrl": {
+                              "type": "string",
+                              "example": "URL"
+                            },
+                            "termsOfUse": {
+                              "type": "string",
+                              "example": "URL"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/:keyId/nearby-points-of-interest": {
+      "post": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Nearby points of interest.",
+        "description": "Nearby points of interest from your vehicle location.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "Filter information for nearby points of interest.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "maxResults": {
+                    "type": "number",
+                    "example": 10,
+                    "minimum": 10,
+                    "maximum": 1000,
+                    "default": 100
+                  },
+                  "onlyOpened": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "paymentMode": {
+                    "type": "string",
+                    "enum": [
+                      "membersOnly",
+                      "payAtLocation"
+                    ],
+                    "example": "payAtLocation"
+                  },
+                  "pointTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "chargingPoint"
+                      ],
+                      "example": "chargingPoint",
+                      "minimum": 1,
+                      "maximum": 36,
+                      "uniqueItems": true
+                    }
+                  },
+                  "radius": {
+                    "type": "number",
+                    "description": "Enter the radius in meters.",
+                    "example": 6,
+                    "minimum": 500,
+                    "maximum": 500000,
+                    "default": 20000
+                  },
+                  "lang": {
+                    "type": "string",
+                    "enum": [
+                      "en",
+                      "hi",
+                      "es"
+                    ],
+                    "example": "en",
+                    "default": "en"
+                  },
+                  "location": {
+                    "type": "object",
+                    "properties": {
+                      "latitude": {
+                        "type": "number",
+                        "example": 50,
+                        "minimum": -90,
+                        "maximum": 90
+                      },
+                      "longitude": {
+                        "type": "number",
+                        "example": 100,
+                        "minimum": -180,
+                        "maximum": 180
+                      }
+                    }
+                  },
+                  "chargerFilter": {
+                    "type": "object",
+                    "properties": {
+                      "connectors": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 1,
+                          "maximum": 36,
+                          "example": 2,
+                          "uniqueItems": true
+                        }
+                      },
+                      "intensity": {
+                        "type": "string",
+                        "enums": [
+                          "slowCharging",
+                          "fastCharging"
+                        ],
+                        "example": "fastCharging"
+                      },
+                      "power": {
+                        "type": "object",
+                        "description": "Enter the power in meters.",
+                        "minimum": 1,
+                        "properties": {
+                          "min": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 650000,
+                            "example": 500
+                          },
+                          "max": {
+                            "type": "number",
+                            "description": "Max power must be greater than the min power.",
+                            "example": 1000
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "operators": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 1,
+                      "maximum": 36,
+                      "uniqueItems": true,
+                      "example": 2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Points of interest data retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "chargingPoint": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "location": {
+                                "type": "object",
+                                "properties": {
+                                  "latitude": {
+                                    "type": "number",
+                                    "example": 50
+                                  },
+                                  "longitude": {
+                                    "type": "number",
+                                    "example": 100
+                                  }
+                                }
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "chargingStation"
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "slowCharging",
+                                  "fastCharging"
+                                ],
+                                "example": "fastCharging"
+                              },
+                              "distance": {
+                                "type": "number",
+                                "example": 4
+                              },
+                              "availableStalls": {
+                                "type": "number",
+                                "example": 2
+                              },
+                              "totalStalls": {
+                                "type": "number",
+                                "example": 6
+                              },
+                              "siteClosed": {
+                                "type": "boolean",
+                                "example": false
+                              },
+                              "isMembershipRequired": {
+                                "type": "boolean",
+                                "example": true
+                              },
+                              "operatorInformation": {
+                                "type": "string",
+                                "example": "xyz charging station."
+                              }
+                            }
+                          }
+                        },
+                        "filters": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "button",
+                                  "checkbox",
+                                  "dropdown",
+                                  "radio",
+                                  "range",
+                                  "toggle"
+                                ],
+                                "example": "button"
+                              },
+                              "name": {
+                                "type": "string",
+                                "enum": [
+                                  "chargingConnector",
+                                  "chargerOperator",
+                                  "chargePower",
+                                  "chargeIntensity"
+                                ],
+                                "example": "chargingConnector"
+                              },
+                              "translatedString": {
+                                "type": "string",
+                                "example": "chargingConnector"
+                              },
+                              "hasOptions": {
+                                "type": "boolean",
+                                "example": true
+                              },
+                              "hasOptionImage": {
+                                "type": "boolean",
+                                "example": true
+                              },
+                              "options": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string",
+                                      "example": "chargingConnector"
+                                    },
+                                    "translatedString": {
+                                      "type": "string",
+                                      "example": "chargingConnector"
+                                    },
+                                    "value": {
+                                      "oneOf": [
+                                        {
+                                          "type": "string",
+                                          "example": "abc"
+                                        },
+                                        {
+                                          "type": "number",
+                                          "example": 123
+                                        }
+                                      ]
+                                    },
+                                    "image": {
+                                      "type": "string",
+                                      "example": "URL"
+                                    }
+                                  }
+                                }
+                              },
+                              "range": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number",
+                                    "example": 1
+                                  },
+                                  "maxValue": {
+                                    "type": "number",
+                                    "example": 500
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/:keyId/software/release-notes": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Release notes",
+        "description": "Receive release notes for your vehicle software.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assistance details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "releaseDate": {
+                          "type": "date",
+                          "example": "2024-02-14T00:00:00.000Z"
+                        },
+                        "summary": {
+                          "type": "string",
+                          "example": "Bug fixes"
+                        },
+                        "lastVersion": {
+                          "type": "string",
+                          "example": "1.1.0"
+                        },
+                        "latestVersion": {
+                          "type": "string",
+                          "example": "1.2.0"
+                        },
+                        "versionName": {
+                          "type": "string",
+                          "example": "1.1.0"
+                        },
+                        "notes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string",
+                                "example": "Bug fixes"
+                              },
+                              "category": {
+                                "type": "string",
+                                "enum": [
+                                  "bugFix",
+                                  "improvement",
+                                  "newFeature"
+                                ],
+                                "example": "bugFix"
+                              },
+                              "message": {
+                                "type": "string",
+                                "example": "Fixed various minor bugs."
+                              }
+                            }
+                          }
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/bot/intent/text": {
+      "post": {
+        "tags": [
+          "Bot"
+        ],
+        "summary": "Control car using text commands.",
+        "description": "Control your car using text commands.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "Enter text command to control your vehicle.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "textCommand": {
+                  "type": "string",
+                  "example": "lock"
+                },
+                "lang": {
+                  "type": "string",
+                  "example": "en"
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle specifications retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "intent": {
+                          "type": "string",
+                          "enums": [
+                            "WakeUp",
+                            "Flash",
+                            "Honk",
+                            "LockCar",
+                            "UnlockCar",
+                            "AcOn",
+                            "AcOff",
+                            "OpenVent",
+                            "CloseVent",
+                            "OpenCharger",
+                            "CloseCharger",
+                            "StartCar",
+                            "StopCar",
+                            "OpenTrunk",
+                            "CloseTrunk"
+                          ],
+                          "example": "LockCar."
+                        },
+                        "requestStatus": {
+                          "type": "string",
+                          "enums": [
+                            "failed",
+                            "fulfilled",
+                            "inProgress",
+                            "waiting"
+                          ],
+                          "example": "fulfilled"
+                        },
+                        "slots": {
+                          "type": "object",
+                          "example": {
+                            "vehicle": "Tesla"
+                          }
+                        },
+                        "messages": {
+                          "type": "array",
+                          "example": [
+                            "The car is locked"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/bot/intent/voice": {
+      "post": {
+        "tags": [
+          "Bot"
+        ],
+        "summary": "Control car using voice commands.",
+        "description": "Control your car using voice commands.",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "description": "Select language.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "en",
+              "enum": [
+                "en",
+                "hi",
+                "es"
+              ]
+            }
+          },
+          {
+            "in": "formData",
+            "name": "file",
+            "required": true,
+            "description": "Please ensure that your audio file is in PCM format and named voiceIntentFile (voiceIntentFile.pcm). The duration of the audio should not exceed 15 seconds.",
+            "type": "string",
+            "format": "binary",
+            "contentMediaType": "audio/pcm"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle specifications retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "intent": {
+                          "type": "string",
+                          "enums": [
+                            "WakeUp",
+                            "Flash",
+                            "Honk",
+                            "LockCar",
+                            "UnlockCar",
+                            "AcOn",
+                            "AcOff",
+                            "OpenVent",
+                            "CloseVent",
+                            "OpenCharger",
+                            "CloseCharger",
+                            "StartCar",
+                            "StopCar",
+                            "OpenTrunk",
+                            "CloseTrunk"
+                          ],
+                          "example": "LockCar."
+                        },
+                        "requestStatus": {
+                          "type": "string",
+                          "enums": [
+                            "failed",
+                            "fulfilled",
+                            "inProgress",
+                            "waiting"
+                          ],
+                          "example": "fulfilled"
+                        },
+                        "slots": {
+                          "type": "object",
+                          "example": {
+                            "vehicle": "Tesla"
+                          }
+                        },
+                        "messages": {
+                          "type": "array",
+                          "example": [
+                            "The car is locked"
+                          ]
+                        },
+                        "stream": {
+                          "type": "object"
+                        },
+                        "inputTranscript": {
+                          "type": "string",
+                          "example": "lock"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/bot/chat/text": {
+      "post": {
+        "tags": [
+          "Bot"
+        ],
+        "summary": "Get response from bot.",
+        "description": "Get response for your questions from the bot.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "Enter question for the bot.(Maximum responseLength supported is 512).",
+            "schema": {
+              "type": "object",
+              "required": [
+                "textCommand"
+              ],
+              "properties": {
+                "textCommand": {
+                  "type": "string",
+                  "example": "Can you tell me Tesla model 3 specifications?"
+                },
+                "responseLength": {
+                  "type": "number",
+                  "example": 50
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response received from the bot successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "The Tesla model 3 is an electric sedan known for its impressive performance and range. With sleek design and advanced technology, it offers acceleration from 0 to 60 mph in under 5 seconds and a range of up to 353 miles per charge. It features autopilot capabilities for enhanced safety."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/states/battery": {
+      "get": {
+        "tags": [
+          "State"
+        ],
+        "summary": "Battery state.",
+        "description": "Retrieves the battery details of your vehicle.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "description": "Enter your authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle battery state retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "batteryLevelPercent": {
+                          "type": "number",
+                          "example": 55,
+                          "required": true
+                        },
+                        "amps": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "power": {
+                          "type": "number",
+                          "example": 100
+                        },
+                        "range": {
+                          "type": "number",
+                          "example": 420
+                        },
+                        "voltage": {
+                          "type": "number",
+                          "example": 100
+                        },
+                        "currentChargeRequest": {
+                          "type": "number",
+                          "example": 49
+                        },
+                        "chargeState": {
+                          "type": "string",
+                          "example": "charging",
+                          "required": true
+                        },
+                        "isChargePortOpened": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/states/climate": {
+      "get": {
+        "tags": [
+          "State"
+        ],
+        "summary": "Climate state.",
+        "description": "Retrieves the climate details of your vehicle.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle climate state retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "outsideTemperature": {
+                          "type": "number",
+                          "example": 32,
+                          "required": true
+                        },
+                        "insideTemperature": {
+                          "type": "number",
+                          "example": 24,
+                          "required": true
+                        },
+                        "passengerTemperature": {
+                          "type": "number",
+                          "example": 28
+                        },
+                        "driverTemperature": {
+                          "type": "number",
+                          "example": 27
+                        },
+                        "isThermostatOn": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/states/location": {
+      "get": {
+        "tags": [
+          "State"
+        ],
+        "summary": "Location state.",
+        "description": "Retrieves the location details of your vehicle.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle location details retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "latitude": {
+                          "type": "number",
+                          "example": 32,
+                          "required": true
+                        },
+                        "longitude": {
+                          "type": "number",
+                          "example": 24,
+                          "required": true
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/states/vehicle": {
+      "get": {
+        "tags": [
+          "State"
+        ],
+        "summary": "Vehicle state.",
+        "description": "Retrieves the details of your vehicle.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle state retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "isLocked": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "isChargePortOpened": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "isRemotelyStarted": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "isSentryModeOn": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "isSunroofOpened": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "isThermostatOn": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "isTrunkOpened": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "isOnline": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "areVentsOpened": {
+                          "type": "boolean",
+                          "example": true,
+                          "required": true
+                        },
+                        "remoteControlEnabled": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "notificationSupported": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "odometer": {
+                          "type": "number",
+                          "example": 50345,
+                          "required": true
+                        },
+                        "software": {
+                          "type": "object",
+                          "properties": {
+                            "currentVersion": {
+                              "type": "string",
+                              "example": "1.0.0",
+                              "required": true
+                            },
+                            "availableVersion": {
+                              "type": "string",
+                              "example": "1.1.0",
+                              "required": true
+                            },
+                            "expectedDuration": {
+                              "type": "number",
+                              "example": 10,
+                              "required": true
+                            },
+                            "downloadedPercentage": {
+                              "type": "number",
+                              "example": 60
+                            },
+                            "installedPercentage": {
+                              "type": "number",
+                              "example": 40
+                            },
+                            "status": {
+                              "type": "string",
+                              "example": "installing",
+                              "required": true
+                            }
+                          }
+                        },
+                        "speed": {
+                          "type": "object",
+                          "properties": {
+                            "limit": {
+                              "type": "number",
+                              "example": 120
+                            },
+                            "minLimit": {
+                              "type": "number",
+                              "example": 40
+                            },
+                            "maxLimit": {
+                              "type": "number",
+                              "example": 160
+                            },
+                            "average": {
+                              "type": "number",
+                              "example": 80
+                            }
+                          }
+                        },
+                        "hasSmartSummon": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "sunRoofState": {
+                          "type": "string",
+                          "example": "open"
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/user": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Remove user.",
+        "description": "Remove user account from the Vahan app.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users account deletion successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User has been deleted successfully."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/user/notifications/categories": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get notification categories for user.",
+        "description": "Get your notification categories.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your notification categories retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "tesla"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/user/preferences": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user preferences data.",
+        "description": "Get your preferences data.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Preferences data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "appConfigurations": {
+                          "type": "object",
+                          "properties": {
+                            "refreshTime": {
+                              "type": "number",
+                              "example": 10
+                            }
+                          }
+                        },
+                        "dateTime": {
+                          "type": "object",
+                          "properties": {
+                            "dateFormat": {
+                              "type": "string",
+                              "enums": [
+                                "dd-mm-yyyy",
+                                "mm-dd-yyyy",
+                                "yyyy-mm-dd"
+                              ],
+                              "example": "yyyy-mm-dd"
+                            },
+                            "timeFormat": {
+                              "type": "number",
+                              "enums": [
+                                12,
+                                24
+                              ],
+                              "example": 12
+                            }
+                          }
+                        },
+                        "measurementUnits": {
+                          "type": "object",
+                          "properties": {
+                            "distance": {
+                              "type": "string",
+                              "enums": [
+                                "kilometers",
+                                "miles"
+                              ],
+                              "example": "kilometers"
+                            },
+                            "temperature": {
+                              "type": "string",
+                              "enums": [
+                                "celsius",
+                                "fahrenheit"
+                              ],
+                              "example": "celsius"
+                            },
+                            "speed": {
+                              "type": "string",
+                              "enums": [
+                                "kilometersPerHour",
+                                "milesPerHour"
+                              ],
+                              "example": "kilometersPerHour"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user preferences data.",
+        "description": "Update your preferences data.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "Input your preferences details.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "appConfigurations": {
+                  "type": "object",
+                  "minItems": 1,
+                  "properties": {
+                    "refreshTime": {
+                      "type": "number",
+                      "description": "Enter the refreshTime in seconds.",
+                      "minimum": 60,
+                      "maximum": 14400,
+                      "example": 10
+                    }
+                  }
+                },
+                "dateTime": {
+                  "type": "object",
+                  "properties": {
+                    "dateFormat": {
+                      "type": "string",
+                      "minLength": 1,
+                      "enums": [
+                        "dd-mm-yyyy",
+                        "mm-dd-yyyy",
+                        "yyyy-mm-dd"
+                      ],
+                      "example": "yyyy-mm-dd"
+                    },
+                    "timeFormat": {
+                      "type": "number",
+                      "minimum": 1,
+                      "enums": [
+                        12,
+                        24
+                      ],
+                      "example": 12
+                    }
+                  }
+                },
+                "measurementUnits": {
+                  "type": "object",
+                  "properties": {
+                    "distance": {
+                      "type": "string",
+                      "enums": [
+                        "kilometers",
+                        "miles"
+                      ],
+                      "example": "kilometers"
+                    },
+                    "temperature": {
+                      "type": "string",
+                      "enums": [
+                        "celsius",
+                        "fahrenheit"
+                      ],
+                      "example": "celsius"
+                    },
+                    "speed": {
+                      "type": "string",
+                      "enums": [
+                        "kilometersPerHour",
+                        "milesPerHour"
+                      ],
+                      "example": "kilometersPerHour"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User preferences data updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "appConfigurations": {
+                          "type": "object",
+                          "properties": {
+                            "refreshTime": {
+                              "type": "number",
+                              "example": 10
+                            }
+                          }
+                        },
+                        "dateTime": {
+                          "type": "object",
+                          "properties": {
+                            "dateFormat": {
+                              "type": "string",
+                              "enums": [
+                                "dd-mm-yyyy",
+                                "mm-dd-yyyy",
+                                "yyyy-mm-dd"
+                              ],
+                              "example": "yyyy-mm-dd"
+                            },
+                            "timeFormat": {
+                              "type": "number",
+                              "enums": [
+                                12,
+                                24
+                              ],
+                              "example": 12
+                            }
+                          }
+                        },
+                        "measurementUnits": {
+                          "type": "object",
+                          "properties": {
+                            "distance": {
+                              "type": "string",
+                              "enums": [
+                                "kilometers",
+                                "miles"
+                              ],
+                              "example": "kilometers"
+                            },
+                            "temperature": {
+                              "type": "string",
+                              "enums": [
+                                "celsius",
+                                "fahrenheit"
+                              ],
+                              "example": "celsius"
+                            },
+                            "speed": {
+                              "type": "string",
+                              "enums": [
+                                "kilometersPerHour",
+                                "milesPerHour"
+                              ],
+                              "example": "kilometersPerHour"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/user/profile": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user profile data.",
+        "description": "Get your profile data.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile data retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "example": "JohnDoe123"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "John.Doe@example.com"
+                        },
+                        "countryCode": {
+                          "type": "string",
+                          "example": 619
+                        },
+                        "mobileNumber": {
+                          "type": "string",
+                          "example": "123 456 7890"
+                        },
+                        "referenceId": {
+                          "type": "string",
+                          "example": "abc123"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user profile data.",
+        "description": "Update your profile data.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "Input your profile details.",
+            "schema": {
+              "type": "object",
+              "minItems": 1,
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 48,
+                  "example": "John Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "maxLength": 48,
+                  "example": "John.Doe@example.com"
+                },
+                "countryCode": {
+                  "type": "string",
+                  "format": "pattern",
+                  "pattern": "^[1-9]\\d?-?\\d{0,7}$",
+                  "maxLength": 7,
+                  "example": 619
+                },
+                "mobileNumber": {
+                  "type": "string",
+                  "format": "pattern",
+                  "pattern": "^[1-9]\\\\d{3,11}$",
+                  "minLength": 4,
+                  "maxLength": 12,
+                  "example": "123 456 7890"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile data updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string",
+                          "example": "JohnDoe123"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "John.Doe@example.com"
+                        },
+                        "countryCode": {
+                          "type": "string",
+                          "example": 619
+                        },
+                        "mobileNumber": {
+                          "type": "string",
+                          "example": "123 456 7890"
+                        },
+                        "referenceId": {
+                          "type": "string",
+                          "example": "abc123"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/user/subscriptions/active": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get active subscription of the user.",
+        "description": "Get active subscription of the user.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your active subscription retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "example": "monthly"
+                        },
+                        "activatedAt": {
+                          "type": "date",
+                          "example": "2024-02-10T00:00:00.000Z"
+                        },
+                        "expiresAt": {
+                          "type": "date",
+                          "example": "2024-03-10T00:00:00.000Z"
+                        },
+                        "paymentGateway": {
+                          "type": "string",
+                          "enums": [
+                            "appStore",
+                            "playStore",
+                            "stripe"
+                          ],
+                          "example": "playStore"
+                        },
+                        "status": {
+                          "type": "string",
+                          "enums": [
+                            "inVerification",
+                            "invalid",
+                            "valid"
+                          ],
+                          "example": "valid"
+                        },
+                        "transactionId": {
+                          "type": "string",
+                          "example": "asd123zxc456"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles": {
+      "post": {
+        "tags": [
+          "Vehicle"
+        ],
+        "summary": "Add vehicle.",
+        "description": "Add your new vehicle.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "List of vehicles that needs to be added.",
+            "schema": {
+              "type": "array",
+              "required": true,
+              "minItems": 1,
+              "maxItems": 36,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "keyId": {
+                    "type": "string",
+                    "example": 12345,
+                    "alphanum": true,
+                    "maxLength": 36
+                  },
+                  "vin": {
+                    "type": "string",
+                    "example": "4A1SZ65048Z41XXXX"
+                  },
+                  "vehicleName": {
+                    "type": "string",
+                    "example": "my-car",
+                    "maxLength": 48
+                  },
+                  "vehicleModel": {
+                    "type": "string",
+                    "example": "models"
+                  },
+                  "vehicleType": {
+                    "type": "string",
+                    "enum": [
+                      "fourWheeler",
+                      "twoWheeler",
+                      "efourWheeler",
+                      "etwoWheeler"
+                    ],
+                    "example": "fourWheeler"
+                  },
+                  "registrationNumber": {
+                    "type": "string",
+                    "example": "AB-12345"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle specifications retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "required": [
+                        "keyId"
+                      ],
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "keyId": {
+                            "type": "string",
+                            "example": 12345
+                          },
+                          "vin": {
+                            "type": "string",
+                            "example": "4A1SZ65048Z41XXXX"
+                          },
+                          "vehicleName": {
+                            "type": "string",
+                            "example": "my-car"
+                          },
+                          "vehicleModel": {
+                            "type": "string",
+                            "example": "models"
+                          },
+                          "vehicleType": {
+                            "type": "string",
+                            "enum": [
+                              "fourWheeler",
+                              "twoWheeler",
+                              "efourWheeler",
+                              "etwoWheeler"
+                            ],
+                            "example": "fourWheeler"
+                          },
+                          "registrationNumber": {
+                            "type": "string",
+                            "example": "AB-12345"
+                          }
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Vehicles added successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/vehicles/vendor": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "summary": "Get vehicles by vendor.",
+        "description": "Retrieve your vehicle by vendor.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle specifications retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "keyId": {
+                            "type": "string",
+                            "example": "ex123"
+                          },
+                          "vehicleModel": {
+                            "type": "string",
+                            "example": "modelX",
+                            "required": true
+                          },
+                          "vehicleName": {
+                            "type": "string",
+                            "example": "tarzan"
+                          },
+                          "vendor": {
+                            "type": "string",
+                            "enum": [
+                              "velocity",
+                              "tesla",
+                              "rivian"
+                            ],
+                            "example": "tesla",
+                            "required": true
+                          },
+                          "vin": {
+                            "type": "string",
+                            "example": "4X1XX65848Z411439",
+                            "required": true
+                          },
+                          "trialStartedAt": {
+                            "type": "date",
+                            "example": "2024-02-10T00:00:00.000Z",
+                            "required": true
+                          },
+                          "trialExpiryDate": {
+                            "type": "date",
+                            "example": "2024-02-24T00:00:00.000Z",
+                            "required": true
+                          },
+                          "vendorData": {
+                            "type": "unknown"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/vendor": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "summary": "Vehicles from vendor.",
+        "description": "Retrieve your vehicle from vendor.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle specifications retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "required": [
+                        "keyId",
+                        "name",
+                        "state"
+                      ],
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "keyId": {
+                            "type": "string",
+                            "example": 12345
+                          },
+                          "vehicleId": {
+                            "type": "string",
+                            "example": "0a9b8c7d6"
+                          },
+                          "vin": {
+                            "type": "string",
+                            "example": "4A1SZ65048Z41XXXX"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "tarzan"
+                          },
+                          "state": {
+                            "type": "string",
+                            "enum": [
+                              "online",
+                              "offline"
+                            ],
+                            "example": "online"
+                          },
+                          "vendorData": {
+                            "type": "unknown"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/vehicles": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "summary": "Get vehicles.",
+        "description": "Get your vehicles.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your vehicle retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "keyId": {
+                            "type": "string",
+                            "example": "ex123"
+                          },
+                          "vehicleModel": {
+                            "type": "string",
+                            "example": "modelX",
+                            "required": true
+                          },
+                          "vehicleName": {
+                            "type": "string",
+                            "example": "tarzan"
+                          },
+                          "vendor": {
+                            "type": "string",
+                            "enum": [
+                              "velocity",
+                              "tesla",
+                              "rivian"
+                            ],
+                            "example": "tesla",
+                            "required": true
+                          },
+                          "vin": {
+                            "type": "string",
+                            "example": "4X1XX65848Z411439",
+                            "required": true
+                          },
+                          "trialStartedAt": {
+                            "type": "date",
+                            "example": "2024-02-10T00:00:00.000Z",
+                            "required": true
+                          },
+                          "trialExpiryDate": {
+                            "type": "date",
+                            "example": "2024-02-24T00:00:00.000Z",
+                            "required": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}/specifications": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "summary": "Vehicle specifications.",
+        "description": "Retrieve your vehicle specifications.",
+        "parameters": [
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle specifications retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "canAcceptNavigationRequests": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "chargePortType": {
+                          "type": "string",
+                          "example": "NACS"
+                        },
+                        "exteriorColor": {
+                          "type": "string",
+                          "example": "black"
+                        },
+                        "exteriorImage": {
+                          "type": "string",
+                          "example": "URL"
+                        },
+                        "hasAirSuspensions": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "hasSunRoof": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "hasThermostat": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isChargePortMotorized": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isRemoteStartAvailable": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isSentryModeAvailable": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "isTrunkControllable": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "areVentsControllable": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "model": {
+                          "type": "string",
+                          "example": "models"
+                        },
+                        "roofColor": {
+                          "type": "string",
+                          "example": "black"
+                        },
+                        "seatType": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "vehicleType": {
+                          "type": "string",
+                          "enum": [
+                            "fourWheeler",
+                            "twoWheeler",
+                            "efourWheeler",
+                            "etwoWheeler"
+                          ],
+                          "example": "fourWheeler"
+                        },
+                        "wheelType": {
+                          "type": "string",
+                          "example": "alloy"
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/app/vehicles/{vendor}/{keyId}": {
+      "patch": {
+        "tags": [
+          "Vehicle"
+        ],
+        "summary": "Update vehicle information .",
+        "description": "Update the information of your vehicle.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "body",
+            "name": "Body",
+            "description": "Input details of the vehicle to post.",
+            "schema": {
+              "type": "array",
+              "required": true,
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "keyId": {
+                    "type": "string",
+                    "example": "ex123"
+                  },
+                  "vin": {
+                    "type": "string",
+                    "example": "4X1XX65848Z411439"
+                  },
+                  "vehicleName": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 48,
+                    "example": "tarzan"
+                  },
+                  "vehicleModel": {
+                    "type": "string",
+                    "example": "models"
+                  },
+                  "vehicleType": {
+                    "type": "string",
+                    "enum": [
+                      "fourWheeler",
+                      "twoWheeler",
+                      "efourWheeler",
+                      "etwoWheeler"
+                    ],
+                    "example": "efourWheeler"
+                  },
+                  "registrationNumber": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 48,
+                    "example": "123 456 7890"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle specifications retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "required": [
+                        "keyId"
+                      ],
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "keyId": {
+                            "type": "string",
+                            "example": "ex123"
+                          },
+                          "vin": {
+                            "type": "string",
+                            "example": "4X1XX65848Z411439"
+                          },
+                          "vehicleName": {
+                            "type": "string",
+                            "example": "tarzan"
+                          },
+                          "vehicleModel": {
+                            "type": "string",
+                            "example": "models"
+                          },
+                          "vehicleType": {
+                            "type": "string",
+                            "enum": [
+                              "fourWheeler",
+                              "twoWheeler",
+                              "efourWheeler",
+                              "etwoWheeler"
+                            ],
+                            "example": "efourWheeler"
+                          },
+                          "registrationNumber": {
+                            "type": "string",
+                            "example": "123 456 7890"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Vehicle"
+        ],
+        "summary": "Delete vehicle information.",
+        "description": "Delete the information of your vehicle.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle specifications retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "keyId": {
+                          "type": "string",
+                          "example": "ex123"
+                        },
+                        "vendor": {
+                          "type": "string",
+                          "enum": [
+                            "velocity",
+                            "tesla",
+                            "rivian"
+                          ],
+                          "example": "tesla"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Vehicle deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    },
+    "/{vendor}/vehicles/{keyId}": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "summary": "Vehicle summary.",
+        "description": "Your vehicle details.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "keyId",
+            "required": true,
+            "description": "Id of the vehicle.",
+            "type": "string"
+          },
+          {
+            "name": "vendor",
+            "in": "path",
+            "description": "Select your vehicle brand.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "tesla",
+              "enum": [
+                "velocity",
+                "tesla",
+                "rivian"
+              ]
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "Select language.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "en",
+              "enum": [
+                "en",
+                "hi",
+                "es"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Enter your authentication token.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle summary retrieval successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "keyId": {
+                          "type": "string",
+                          "example": 12345
+                        },
+                        "vehicleId": {
+                          "type": "string",
+                          "example": "0a9b8c7d6"
+                        },
+                        "vin": {
+                          "type": "string",
+                          "example": "4A1SZ65048Z41XXXX"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "tarzan"
+                        },
+                        "state": {
+                          "type": "string",
+                          "enum": [
+                            "online",
+                            "offline"
+                          ],
+                          "example": "online"
+                        },
+                        "vendor": {
+                          "type": "string",
+                          "enum": [
+                            "velocity",
+                            "tesla",
+                            "rivian"
+                          ],
+                          "example": "tesla"
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "latitude": {
+                              "type": "number",
+                              "example": 50
+                            },
+                            "longitude": {
+                              "type": "number",
+                              "example": 100
+                            }
+                          }
+                        },
+                        "battery": {
+                          "type": "object",
+                          "properties": {
+                            "batteryLevelPercent": {
+                              "type": "number",
+                              "example": 75
+                            },
+                            "amps": {
+                              "type": "number",
+                              "example": 0.1
+                            },
+                            "power": {
+                              "type": "number",
+                              "example": 100
+                            },
+                            "voltage": {
+                              "type": "number",
+                              "example": 100
+                            },
+                            "currentChargeRequest": {
+                              "type": "number",
+                              "example": 2
+                            },
+                            "chargeState": {
+                              "type": "string",
+                              "example": "on"
+                            },
+                            "isChargePortOpened": {
+                              "type": "boolean",
+                              "example": true
+                            }
+                          }
+                        },
+                        "climate": {
+                          "type": "object",
+                          "properties": {
+                            "outsideTemperature": {
+                              "type": "number",
+                              "example": 33
+                            },
+                            "insideTemperature": {
+                              "type": "number",
+                              "example": 27
+                            },
+                            "passengerTemperature": {
+                              "type": "number",
+                              "example": 30
+                            },
+                            "driverTemperature": {
+                              "type": "number",
+                              "example": 30
+                            },
+                            "isThermostatOn": {
+                              "type": "number",
+                              "example": true
+                            }
+                          }
+                        },
+                        "specifications": {
+                          "type": "object",
+                          "properties": {
+                            "canAcceptNavigationRequests": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "chargePortType": {
+                              "type": "string",
+                              "example": "NACS"
+                            },
+                            "exteriorColor": {
+                              "type": "string",
+                              "example": "black"
+                            },
+                            "exteriorImage": {
+                              "type": "string",
+                              "example": "URL"
+                            },
+                            "hasAirSuspensions": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "hasSunRoof": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "hasThermostat": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isChargePortMotorized": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isRemoteStartAvailable": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isSentryModeAvailable": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isTrunkControllable": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "areVentsControllable": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "model": {
+                              "type": "string",
+                              "example": "models"
+                            },
+                            "roofColor": {
+                              "type": "string",
+                              "example": "black"
+                            },
+                            "seatType": {
+                              "type": "number",
+                              "example": 4
+                            },
+                            "vehicleType": {
+                              "type": "string",
+                              "enum": [
+                                "fourWheeler",
+                                "twoWheeler",
+                                "efourWheeler",
+                                "etwoWheeler"
+                              ],
+                              "example": "efourwheeler"
+                            },
+                            "wheelType": {
+                              "type": "string",
+                              "example": "alloy"
+                            }
+                          }
+                        },
+                        "vehicleState": {
+                          "type": "object",
+                          "properties": {
+                            "isLocked": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isChargePortOpened": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isRemotelyStarted": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isSentryModeOn": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isSunroofOpened": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isThermostatOn": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isTrunkOpened": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "isOnline": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "areVentsOpened": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "remoteControlEnabled": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "notificationSupported": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "odometer": {
+                              "type": "number",
+                              "example": true
+                            },
+                            "software": {
+                              "type": "object",
+                              "properties": {
+                                "currentVersion": {
+                                  "type": "string",
+                                  "example": "v1.0.0"
+                                },
+                                "availableVersion": {
+                                  "type": "string",
+                                  "example": "v1.0.1"
+                                },
+                                "expectedDuration": {
+                                  "type": "number",
+                                  "example": 10
+                                },
+                                "downloadedPercentage": {
+                                  "type": "number",
+                                  "example": 60
+                                },
+                                "installedPercentage": {
+                                  "type": "number",
+                                  "example": 40
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "example": "Up to Date"
+                                }
+                              }
+                            },
+                            "speed": {
+                              "type": "object",
+                              "properties": {
+                                "limit": {
+                                  "type": "number",
+                                  "example": 100
+                                },
+                                "minLimit": {
+                                  "type": "number",
+                                  "example": "v1.0.1"
+                                },
+                                "maxLimit": {
+                                  "type": "number",
+                                  "example": 10
+                                },
+                                "average": {
+                                  "type": "number",
+                                  "example": 60
+                                }
+                              }
+                            },
+                            "hasSmartSummon": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "sunRoofState": {
+                              "type": "string",
+                              "example": "opened"
+                            }
+                          }
+                        },
+                        "dashboardWidgets": {
+                          "type": "array",
+                          "description": "Widgets.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "abc"
+                              },
+                              "value": {
+                                "oneOf": [
+                                  {
+                                    "type": "string",
+                                    "example": "abc"
+                                  },
+                                  {
+                                    "type": "number",
+                                    "example": 123
+                                  }
+                                ]
+                              },
+                              "unitCategory": {
+                                "type": "string",
+                                "enum": [
+                                  "temperature",
+                                  "distance",
+                                  "speed",
+                                  "percentage"
+                                ],
+                                "example": "temperature"
+                              }
+                            }
+                          }
+                        },
+                        "dashboardMenuAvailability": {
+                          "type": "object",
+                          "properties": {
+                            "diagnostic": {
+                              "type": "object",
+                              "properties": {
+                                "isDataAvailable": {
+                                  "type": "boolean",
+                                  "example": true
+                                },
+                                "canPerformDiagnosis": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "locationHistory": {
+                              "type": "object",
+                              "properties": {
+                                "isDataAvailable": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "maintenance": {
+                              "type": "object",
+                              "properties": {
+                                "isDataAvailable": {
+                                  "type": "boolean",
+                                  "example": true
+                                },
+                                "canSchedule": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "nearbyPointsOfInterests": {
+                              "type": "object",
+                              "properties": {
+                                "isDataAvailable": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "roadSideAssistance": {
+                              "type": "object",
+                              "properties": {
+                                "isDataAvailable": {
+                                  "type": "boolean",
+                                  "example": true
+                                },
+                                "canRequestAssistance": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "softwareUpdate": {
+                              "type": "object",
+                              "properties": {
+                                "isDataAvailable": {
+                                  "type": "boolean",
+                                  "example": true
+                                },
+                                "isUpdateAvailable": {
+                                  "type": "boolean",
+                                  "example": true
+                                },
+                                "currentVersion": {
+                                  "type": "string",
+                                  "example": "1.0.0"
+                                },
+                                "availableVersion": {
+                                  "type": "string",
+                                  "example": "1.0.1"
+                                },
+                                "canPerformUpdate": {
+                                  "type": "boolean",
+                                  "example": true
+                                },
+                                "canSchedule": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "vendorData": {
+                          "type": "object",
+                          "description": "Original data from the vendor."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error - Incorrect authorization token - Enter correct token."
+          }
+        }
+      }
+    }
+  }
+}
